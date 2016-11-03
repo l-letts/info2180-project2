@@ -1,16 +1,13 @@
+
+// Sir, I Must Admit I had some Issues, Will be Working Harder On the Next assignment.
+
+
+
 $ (document).ready(main);
+"use strict";
+
 
 var blankPos = [3,3];
-var spaces = [];
-var base;
-
-var moveCount = 0;
-var offset;
-var clock;
-var interval;
-
-//var blankPos = [3,3];
-//var spaces = [];
 var root;
 
 function main(){
@@ -18,6 +15,8 @@ function main(){
 	var j = 0;
 	var x = 0;
 	var y = 0;
+    
+    
 	$("#puzzlearea>div").each(function(){
 		$(this).addClass("puzzlepiece");
 		root = $("#puzzlearea>div:first-child").position();
@@ -41,91 +40,85 @@ function main(){
 	});	
 }
 
-// movable pieces
-/*
 
-$(".puzzlepiece").click(function()
-                        {
-    $(this).animate({"left":"0"})
-});
-*/
+
+function getTileElement(puzzlepiece)
+{
+	var prefix;
+	var result;
+
+	prefix=".puzzlepiece";
+	result="";
+
+	if(document.getElementById(prefix+tileNumber)!==null)
+	{
+		result=document.getElementById(prefix+tileNumber);
+	}
+
+	else
+	{
+		result=null;
+	}
+	return result;
+
+}
+
+function swapInfo(element1, element2)
+{
+	var tmp;
+	var tmp2;
+tmp=element1.className;
+element1.className=element2.className;
+element2.className=tmp;
+
+tmp2=element1.innerHTML;
+element1.innerHTML=element2.innerHTML;
+element2.innerHTML=tmp2;
+
+}
+
+function getEmptyTile()
+{
+	var i;
+	var prefix;
+	var result;
+
+	i=0;
+	prefix=".puzzlepiece";
+	result="";
+
+	while(i<15 && result !== null)
+	{
+		if(getTileElement(i).className==="<div>15</div>")
+		{
+			result=result+prefix+i;
+		}
+			i=i+1;
+	}
+
+	return result;
+}
+
+function scrambleTiles()
+{
+	swapInfo(document.getElementById(".puzzlepiece"),document.getElementById(".puzzlepiece"+getRandomInteger(14)));
+}
+
+function getRandomInteger(upperLimit)
+{
+	return Math.floor(Math.random()*(upperLimit+1));
+};
+
+
 
 //THE CLICK EVENT!!!!!!! :)
 
-function shuffle(){
-	var x = Math.floor(Math.random()*128);
-	for(var i=16;i<x;i++){
-		randSwap();
-	}
-	//randSwap();
-}
 
-function move(a,space){
-	if(a.hasClass("movablepiece")){
-		var x = base.left+(98*space[0]);
-		var y = base.top+(98*space[1]);
-		a.animate({
-			top: y,
-			left: x
-		});
-		a.css({
-			"top": y,
-			"left": x
-		});
-		setMovable();
-	}	
-}
 
-function setMovable(){
-	$(".puzzlepiece").each(function(){
-		$(this).off();
-		if($(this).hasClass("movablepiece")){
-			$(this).removeClass("movablepiece");		
-		}
-		if(isBeside(getSpace($(this)),blankPos)){
-			$(this).addClass("movablepiece");
-			$(this).on("click",movePiece);
-		}		
-	})
-}
 
 /*
 
-function movablepieces(playingArea, element) {
-var puzzleArea = document.getElementById("puzzlearea");
-var puzzlePieces = puzzleArea.getElementsByTagName("div");
-
-if (playingArea[element - 1][0] ==16)
-    {
-        return mpUp (playingArea, element, puzzlePieces);
-    }
-
-else if  (playingArea[element - 1][1] == 16)
-    {
-        return mpRight (playingArea, element, puzzlePieces);
-    }
-
-else if (playingArea [element - 1][2] == 16)
-    {
-        return mpDown (playingArea, element, puzzlePieces);
-    }
-
-else if (playingArea [element - 1][3] == 16)
-    {
-        return mpLeft (playingArea, element, puzzlePieces);
-    }
-}
-
-*/
-
-function movePiece(){
-	var newPos = blankPos;
-	blankPos = getSpace($(this));
-	move($(this),newPos);
-	//setMovable();
-}
-
-/*function moving(blankCell){
+function moving(blankCell){
 
   //Initialization of the different elements used to modify html document
   var puzzleArea = document.getElementById("puzzlearea");
@@ -146,24 +139,6 @@ function movePiece(){
   }
 }
 */
-
-function getSpace(el){
-	var p = el.position();
-	var x = Math.ceil((p.left-base.left)/98);
-	var y = Math.ceil((p.top-base.top)/98);	
-	return [x,y];
-}
-
-function isBeside(a,b){
-	if(a[0]===b[0]){
-		return a[1]+1===b[1] || a[1]-1===b[1];
-	}else if(a[1]===b[1]){
-		return a[0]+1===b[0] || a[0]-1===b[0];
-	}else{
-		return false;
-	}
-}
-
 
 
 
